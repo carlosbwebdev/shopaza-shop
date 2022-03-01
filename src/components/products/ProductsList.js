@@ -1,13 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ProductItem from './ProductItem';
 import '../../styles/App.css';
 
 const ProductsList = ({ products }) => {
+  console.log(products);
   return (
     <div className="products" id="products">
       {products.map((product) => (
-        <ProductItem key={product.id} product={product} />
+        <Link key={product.id} to={`/user/${product.id}`}>
+          <ProductItem key={product.id} product={product} />
+        </Link>
       ))}
     </div>
   );
