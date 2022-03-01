@@ -21,8 +21,6 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  console.log(products);
-
   return (
     <div className="products-list">
       <ProductsList products={products} />
