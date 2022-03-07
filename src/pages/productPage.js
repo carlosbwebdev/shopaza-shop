@@ -2,11 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../styles/productpage.module.css';
 import { stripHtml } from 'string-strip-html';
+import commerce from '../lib/commerce';
 
-const ProductPage = () => {
+const ProductPage = (onAddToCart) => {
   let { id } = useParams();
   let navigate = useNavigate();
   const [product, getProduct] = useState([]);
+  const [cart, setCart] = useState({});
+
+  const handleAddToCartClick = () => {
+    onAddToCart(product.id, 1);
+  };
+  useEffect(() => {
+    const fetchCart = () => {
+      commerce.cart
+        .retrieve()
+        .then((cart) => {
+          setCart(cart);
+        })
+        .catch((error) => {
+          console.log('There was an error fetching the cart', error);
+        });
+    };
+    fetchCart();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -35,6 +54,13 @@ const ProductPage = () => {
       {/* <p>{meta}</p> */}
       <br />
       <button onClick={() => navigate('/')}>Go back</button>
+      <button
+        name="Add to cart"
+        className="product__btn"
+        onClick={handleAddToCartClick}
+      >
+        Quick add
+      </button>
     </article>
   );
 };
