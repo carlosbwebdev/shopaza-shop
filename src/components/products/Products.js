@@ -3,8 +3,23 @@ import commerce from '../../lib/commerce';
 import ProductsList from './ProductsList';
 import '../../styles/App.css';
 
-const Products = () => {
+const Products = (onAddToCart) => {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState({});
+
+  useEffect(() => {
+    const fetchCart = () => {
+      commerce.cart
+        .retrieve()
+        .then((cart) => {
+          setCart(cart);
+        })
+        .catch((error) => {
+          console.log('There was an error fetching the cart', error);
+        });
+    };
+    fetchCart();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,7 +36,7 @@ const Products = () => {
   }, []);
   return (
     <div className="products-list">
-      <ProductsList products={products} />
+      <ProductsList products={products} onAddToCart={onAddToCart} />
     </div>
   );
 };
