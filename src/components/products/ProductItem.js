@@ -3,7 +3,7 @@ import { stripHtml } from 'string-strip-html';
 import PropTypes from 'prop-types';
 import styles from '../../styles/productitem.module.css';
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, onAddToCart }) => {
   const { result } = stripHtml(product.description);
 
   return (
